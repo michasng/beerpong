@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://chhvyrxc4lxm5"]
+
+[ext_resource type="Script" path="res://cup/cup.gd" id="1_n6y4f"]
+[ext_resource type="ArrayMesh" uid="uid://cty2pkb61fup4" path="res://cup/cup.obj" id="1_rkyae"]
+[ext_resource type="Material" uid="uid://b5rhipxcnjw1t" path="res://materials/Plastic010_1K-JPG/Plastic010_1K-JPG_red.tres" id="3_ugb8s"]
+[ext_resource type="Material" uid="uid://c1fkne1slbm3f" path="res://materials/Plastic010_1K-JPG/Plastic010_1K-JPG.tres" id="4_sgovf"]
+[ext_resource type="Material" uid="uid://cmsawskpwgpvy" path="res://materials/SurfaceImperfections001_1K-JPG/SurfaceImperfections001_1K-JPG.tres" id="5_ir4eg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jsbn7"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u17p0"]
+height = 0.11
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3u85m"]
+height = 0.01
+radius = 0.02
+
+[sub_resource type="SphereMesh" id="SphereMesh_vkbyi"]
+material = ExtResource("5_ir4eg")
+radius = 0.01
+height = 0.02
+
+[node name="RigidBody3D" type="RigidBody3D"]
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_jsbn7")
+max_contacts_reported = 22
+contact_monitor = true
+sleeping = true
+freeze = true
+script = ExtResource("1_n6y4f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.002, 0)
+mesh = ExtResource("1_rkyae")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ugb8s")
+surface_material_override/1 = ExtResource("4_sgovf")
+surface_material_override/2 = ExtResource("3_ugb8s")
+surface_material_override/3 = ExtResource("4_sgovf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, 0)
+shape = SubResource("CylinderShape3D_u17p0")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115, 0)
+shape = SubResource("CylinderShape3D_3u85m")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 0.8
+mesh = SubResource("SphereMesh_vkbyi")
+direction = Vector3(0, 1, 0)
+spread = 10.0
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

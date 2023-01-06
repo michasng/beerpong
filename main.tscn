@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://dj6cq3luqwxle"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_5hwth"]
+[ext_resource type="Material" path="res://materials/Wood020_1K-JPG/Wood020_1K-JPG.tres" id="1_w8eq8"]
+[ext_resource type="Material" path="res://materials/WoodFloor054_1K-JPG/WoodFloor054_1K-JPG.tres" id="2_bs01q"]
+[ext_resource type="PackedScene" uid="uid://chhvyrxc4lxm5" path="res://cup/cup.tscn" id="3_2q4tn"]
+[ext_resource type="PackedScene" uid="uid://8pnvl123kbhf" path="res://slingshot/slingshot.tscn" id="4_fbxfv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nn1p6"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b1mja"]
+material = ExtResource("1_w8eq8")
+size = Vector3(2.4, 0.7, 0.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekf25"]
+size = Vector3(2.4, 0.7, 0.65)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pa0us"]
+material = ExtResource("2_bs01q")
+size = Vector2(10, 10)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ydvo2"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_5hwth")
+red_formation_position = Vector3(-0.8, 0.7, 0)
+red_formation_rotation = Vector3(0, 180, 0)
+
+[node name="Table" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_nn1p6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("BoxMesh_b1mja")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+shape = SubResource("BoxShape3D_ekf25")
+
+[node name="TopDownCamera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+projection = 1
+current = true
+size = 1.5
+
+[node name="SideCamera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59805, 1.86858)
+current = true
+size = 2.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.440253, 0.897874, 0, -0.897874, 0.440253, 0, 1.83367, 1.81308)
+
+[node name="Slingshot" parent="." instance=ExtResource("4_fbxfv")]
+transform = Transform3D(-4.37114e-08, -0.309017, 0.951057, 0, 0.951057, 0.309017, -1, 1.35076e-08, -4.1572e-08, 0.7, 1.3, 0)
+
+[node name="Floor" type="Area3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_pa0us")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_ydvo2")
+
+[node name="Cup" parent="." instance=ExtResource("3_2q4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.360768, 0.7, 0.0572305)
+
+[node name="Cup2" parent="." instance=ExtResource("3_2q4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.097625, 0.7, -0.0775194)
+
+[connection signal="body_entered" from="Floor" to="." method="_on_floor_body_entered"]

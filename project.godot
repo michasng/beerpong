@@ -1,0 +1,38 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+_global_script_classes=[{
+"base": "RigidBody3D",
+"class": &"Ball",
+"language": &"GDScript",
+"path": "res://ball/ball.gd"
+}, {
+"base": "RigidBody3D",
+"class": &"Cup",
+"language": &"GDScript",
+"path": "res://cup/cup.gd"
+}, {
+"base": "Node3D",
+"class": &"Slingshot",
+"language": &"GDScript",
+"path": "res://slingshot/slingshot.gd"
+}]
+_global_script_class_icons={
+"Ball": "",
+"Cup": "",
+"Slingshot": ""
+}
+
+[application]
+
+config/name="Beerpong"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.0", "Forward Plus")
+config/icon="res://icon.svg"

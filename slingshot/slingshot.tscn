@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://8pnvl123kbhf"]
+
+[ext_resource type="Script" path="res://slingshot/slingshot.gd" id="1_6hulb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yto50"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.588235)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x7uj5"]
+size = Vector2(0.5, 0.5)
+
+[node name="Slingshot" type="Node3D"]
+script = ExtResource("1_6hulb")
+strength = 100.0
+shot_angle = -45.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+current = true
+fov = 40.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+visible = false
+material_override = SubResource("StandardMaterial3D_yto50")
+mesh = SubResource("PlaneMesh_x7uj5")
+skeleton = NodePath("../..")
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(0.356852, 0.45289, -0.817036, 7.46842e-09, 0.87462, 0.48481, 0.934161, -0.173005, 0.31211, -3, 2, 1.26393)
+fov = 40.0
