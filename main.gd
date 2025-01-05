@@ -25,9 +25,7 @@ func spawn_formation():
 	
 	for cup in formation.get_children():
 		print(cup)
-		@warning_ignore(return_value_discarded)
 		cup.connect('score', _on_score)
-		@warning_ignore(return_value_discarded)
 		cup.connect('spill', _on_spill)
 
 
@@ -57,4 +55,3 @@ func _on_floor_body_entered(body: PhysicsBody3D):
 		if is_instance_valid(body):
 			body.queue_free()
 		print('Cup fell down')
-

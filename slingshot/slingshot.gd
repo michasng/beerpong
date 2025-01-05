@@ -10,8 +10,6 @@ const ball_scene: PackedScene = preload("res://ball/ball.tscn")
 @export var strength: float = 100
 @export var shot_angle: float = 0
 
-signal score(cup: Node2D)
-
 const camera_distance = 1
 
 var ball: Ball
@@ -24,7 +22,6 @@ func _ready():
 	# call_deferred("setup_corners")
 
 
-@warning_ignore(return_value_discarded)
 func setup_corners():
 	var screen_size = get_viewport().get_visible_rect().size
 	point(_screen_to_world(Vector2.ZERO), 0.02)
@@ -101,7 +98,7 @@ func line(pos1: Vector3, pos2: Vector3, color = Color.WHITE_SMOKE) -> MeshInstan
 	var material := ORMMaterial3D.new()
 	
 	mesh_instance.mesh = immediate_mesh
-	mesh_instance.cast_shadow = false
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
 	immediate_mesh.surface_add_vertex(pos1)
@@ -122,7 +119,7 @@ func point(pos:Vector3, radius = 0.05, color = Color.WHITE_SMOKE) -> MeshInstanc
 	var material := ORMMaterial3D.new()
 		
 	mesh_instance.mesh = sphere_mesh
-	mesh_instance.cast_shadow = false
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mesh_instance.position = pos
 	
 	sphere_mesh.radius = radius

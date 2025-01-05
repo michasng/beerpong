@@ -24,10 +24,10 @@ height = 0.02
 [node name="RigidBody3D" type="RigidBody3D"]
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_jsbn7")
-max_contacts_reported = 22
-contact_monitor = true
 sleeping = true
 freeze = true
+contact_monitor = true
+max_contacts_reported = 22
 script = ExtResource("1_n6y4f")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

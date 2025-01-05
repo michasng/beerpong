@@ -10,7 +10,7 @@ signal spill(cup: Cup)
 @export var spill_angle: float = 80
 var spilled: bool = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if linear_velocity != Vector3.ZERO:
 		print(linear_velocity)
 
@@ -21,15 +21,13 @@ func _process(_delta):
 	
 	if not spilled and (rad_to_deg(abs(rotation.x)) > spill_angle or rad_to_deg(abs(rotation.z)) > spill_angle):
 		spilled = true
-		@warning_ignore(return_value_discarded)
-		emit_signal('spill', self)
+		spill.emit(self)
 		particles.emitting = true
 
 
 func _on_area_3d_body_entered(other: RigidBody3D):
 	if other is Ball: # and other.linear_velocity.y > 0:
-		@warning_ignore(return_value_discarded)
-		emit_signal('score', self, other)
+		score.emit(self, other)
 
 
 func _on_body_entered(body):
